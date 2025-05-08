@@ -1,6 +1,8 @@
 package com.example.EcomarketSPAweb.Model;
 
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
@@ -12,10 +14,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 @AllArgsConstructor
 @NoArgsConstructor
 
+@Entity
 public class Product {
 
     @Id
-    @GetMapping(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int Id;
     private String name;
     private String description;

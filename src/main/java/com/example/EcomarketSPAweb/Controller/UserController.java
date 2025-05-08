@@ -1,11 +1,12 @@
 package com.example.EcomarketSPAweb.Controller;
 
 
-import org.apache.catalina.User;
+import com.example.EcomarketSPAweb.Services.UserService;
+import com.example.EcomarketSPAweb.Model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-@RestController
+    @RestController
     @RequestMapping("/users")
 public class UserController {
 
@@ -14,7 +15,7 @@ public class UserController {
 
         @GetMapping
         public String getUsers(){
-            return userService.getUsers();
+            return userService.geUsers();
         }
 
         @PostMapping
@@ -24,7 +25,16 @@ public class UserController {
 
         @GetMapping("/{id}")
         public String getUserById(@PathVariable int id){
-            return userService.getuser(id);
+            return userService.getUser(id);
+        }
+
+        @DeleteMapping("/{id}")
+        public String deleteUser(@PathVariable int id){
+            return userService.deleteUser(id);
+        }
+        @PutMapping("/{id}")
+        public String putUserById(@PathVariable int id, @RequestBody User user){
+            return userService.updateUser(id,user);
         }
 
 
