@@ -11,6 +11,11 @@ public class ProductService {
     @Autowired
     ProductRepository productRepository;
 
+    public String agregarProducto(Product product){
+        productRepository.save(product);
+        return "Se ha agregado el producto con id: "+product.getId();
+    }
+
     public String listarProductos(){
         String output="";
         for(Product product:productRepository.findAll()){
@@ -56,7 +61,7 @@ public class ProductService {
             Product buscado=productRepository.findById(id).get();
             buscado.setName(product.getName());
             buscado.setDescription(product.getDescription());
-            buscado.setPrice(product.getPrice);
+            buscado.setPrice(product.getPrice());
             buscado.setStock(product.getStock());
             productRepository.save(buscado);
             return "Se ha actualizado el producto con id: "+id;
