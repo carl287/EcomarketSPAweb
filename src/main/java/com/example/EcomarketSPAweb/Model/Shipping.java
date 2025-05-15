@@ -20,8 +20,8 @@ public class Shipping {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
     private int id;
-    private String ShippingName;
-    private String ShippingEmail;
-    private String Patente;
+    private String shippingName;
+    private String shippingEmail;
+    private String patente;
 
 }
