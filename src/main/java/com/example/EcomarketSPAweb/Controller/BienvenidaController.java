@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class BienvenidaController {
 
-    @GetMapping("/hola")
+    @GetMapping("")
     public String bienvenida() {
         return "Somos EcoMarket, Bienvenido :)";
     }
