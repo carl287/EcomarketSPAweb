@@ -16,5 +16,5 @@ public class UserController {
     public String getUsers() {return userService.listarUsuarios();}
 
     @PostMapping
-    public String postUser(@RequestBody User user) {return UserService.agregarUser(user);}
+    public String postUser(@RequestBody User user) {return userService.agregarUser(user);}
 }
