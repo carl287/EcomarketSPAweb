@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+
 @RestController
 @RequestMapping("/suppliers")
 
@@ -24,17 +25,17 @@ public class SuppliersController {
     }
 
     @GetMapping("/{id}")
-    public String getSupplierById(@PathVariable int id) {
+    public String getSuppliersById(@PathVariable int id) {
         return supplierService.obtenerSupplier(id);
     }
 
     @DeleteMapping("/{id}")
-    public String deleteSupplierById(@PathVariable int id) {
+    public String deleteSuppliersById(@PathVariable int id) {
         return supplierService.eliminarSupplier(id);
     }
 
     @PutMapping("/{id}")
-    public String putSupplierById(@PathVariable int id, @RequestBody Suppliers suppliers) {
+    public String putSuppliersById(@PathVariable int id, @RequestBody Suppliers suppliers) {
         return supplierService.actualizarSupplier(id, suppliers);
     }
 }
