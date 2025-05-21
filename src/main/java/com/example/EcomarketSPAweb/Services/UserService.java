@@ -33,7 +33,7 @@ public class UserService {
         }
     }
 
-    public String obtenerUsuariopoId(int id) {
+    public String obtenerUsuarioporId(int id) {
         String output = "";
         if (userRepository.existsById(id)) {
             User user = userRepository.findById(id).get();
