@@ -21,4 +21,9 @@ public class ProductController {
     @PostMapping
     public String postProduct(@RequestBody Product product) {return productService.agregarProducto(product);}
 
+    @GetMapping("/id")
+    public String getProductById(@PathVariable int id) {
+        return productService.obtenerProductoPorId(id);
+    }
+
 }
