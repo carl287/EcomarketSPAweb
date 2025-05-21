@@ -31,7 +31,7 @@ public class GestionProductController {
     }
 
     // Modificar Producto
-    @PutMapping("/{id}")
+    @PutMapping("/id")
     public ResponseEntity<Product> modificarProducto(@PathVariable int id, @RequestBody Product producto) {
         try {
             Product actualizado = gestionProductService.modificarProducto(id, producto);
@@ -53,4 +53,6 @@ public class GestionProductController {
             return ResponseEntity.notFound().build();
         }
     }
+
+
 }
