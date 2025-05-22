@@ -15,8 +15,7 @@ public class UserController {
     @GetMapping
     public String getUsers() {return userService.listarUsuarios();}
 
-    @PostMapping
-    public String postUser(@RequestBody User user) {return userService.agregarUser(user);}
+    
 
     @GetMapping("/{id}")
     public String getUserById(@PathVariable int id) {
