@@ -1,8 +1,6 @@
 package com.example.EcomarketSPAweb.Controller;
 
 import com.example.EcomarketSPAweb.Model.Product;
-import com.example.EcomarketSPAweb.Model.User;
-import com.example.EcomarketSPAweb.Services.AdminUserService;
 import com.example.EcomarketSPAweb.Services.GestionProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -11,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/gestionproduct")
+@RequestMapping("/products/gestion")
 public class GestionProductController {
 
     @Autowired
@@ -31,7 +29,7 @@ public class GestionProductController {
     }
 
     // Modificar Producto
-    @PutMapping("/id")
+    @PutMapping("/{id}")
     public ResponseEntity<Product> modificarProducto(@PathVariable int id, @RequestBody Product producto) {
         try {
             Product actualizado = gestionProductService.modificarProducto(id, producto);
@@ -40,8 +38,6 @@ public class GestionProductController {
             return ResponseEntity.notFound().build();
         }
     }
-
-
 
     // Eliminar Producto
     @DeleteMapping("/{id}")
@@ -53,6 +49,7 @@ public class GestionProductController {
             return ResponseEntity.notFound().build();
         }
     }
+
 
 
 }
