@@ -6,6 +6,8 @@ import com.example.EcomarketSPAweb.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 
 public class UserService {
@@ -24,7 +26,8 @@ public class UserService {
             output += "Id usuario: " + user.getId() + "\n";
             output += "nombre de usuario: " + user.getUsername() + "\n";
             output += "contraseña: " + user.getPassword() + "\n";
-            output += "correo: " + user.getPassword() + "\n";
+            output += "correo: " + user.getEmail() + "\n";
+
         }
         if (output.isEmpty()) {
             return "no hay usuarios";
@@ -67,5 +70,9 @@ public class UserService {
         }else {
             return "No existe un usuario con ese id";
         }
+    }
+
+    public Optional<User> login(String username, String password) {
+        return userRepository.findByUsernameAndPassword(username, password);
     }
 }
