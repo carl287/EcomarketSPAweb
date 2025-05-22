@@ -18,14 +18,14 @@ public class AdminUserController {
     private AdminUserService adminUserService;
 
     // Listar todos los usuarios
-    // http://localhost:8080/admin/users (GET)
+    // http://localhost:8080/users/admin (GET)
     @GetMapping
     public List<User> listarUsuarios() {
         return adminUserService.obtenerTodosLosUsuarios();
     }
 
 
-    // Agregar usuario en el postman http://localhost:8080/admin/users (POST-BODY-RAW-JSON)
+    // Agregar usuario en el postman http://localhost:8080/users/admin (POST-BODY-RAW-JSON)
     // {
     //  "username": "nombre",
     //  "email": "correo",
@@ -38,7 +38,7 @@ public class AdminUserController {
     }
 
     // Modificar usuario
-    // http://localhost:8080/admin/users/(id) (PUT-BODY-RAW-JSON)
+    // http://localhost:8080/users/admin/(id) (PUT-BODY-RAW-JSON)
     //   "username": "nombre_actualizado",
     //  "email": "correo.actualizado@mail.com",
     //  "password": "nuevaclave"
@@ -54,7 +54,7 @@ public class AdminUserController {
     }
 
     // Desactiva usuario
-    // http://localhost:8080/admin/users/(id)/desactivar (PUT)
+    // http://localhost:8080/users/admin/(id)/desactivar (PUT)
     @PutMapping("/{id}/desactivar")
     public ResponseEntity<String> desactivarUsuario(@PathVariable int id) {
         try {
@@ -68,7 +68,7 @@ public class AdminUserController {
 
 
     // Eliminar usuario
-    // http://localhost:8080/admin/users(id) (DELETE)
+    // http://localhost:8080/users/admin/(id) (DELETE)
     @DeleteMapping("/{id}")
     public ResponseEntity<String> eliminarUsuario(@PathVariable int id) {
         try {
