@@ -47,26 +47,4 @@ public class ProductService {
         }
     }
 
-    public String eliminarProducto(int id){
-        if (productRepository.existsById(id)){
-            productRepository.deleteById(id);
-            return "Se ha eliminado el producto con id: "+id;
-        }else{
-            return "No existe un producto con ese id";
-        }
-    }
-
-    public String actualizarProducto(int id, Product product){
-        if (productRepository.existsById(id)){
-            Product buscado=productRepository.findById(id).get();
-            buscado.setName(product.getName());
-            buscado.setDescription(product.getDescription());
-            buscado.setPrice(product.getPrice());
-            buscado.setStock(product.getStock());
-            productRepository.save(buscado);
-            return "Se ha actualizado el producto con id: "+id;
-        }else {
-            return "No existe un producto con ese id";
-        }
-    }
 }

@@ -1,41 +1,40 @@
 package com.example.EcomarketSPAweb.Controller;
 
-
-import com.example.EcomarketSPAweb.Services.UserService;
 import com.example.EcomarketSPAweb.Model.User;
+import com.example.EcomarketSPAweb.Repository.DTO.LoginRequest;
+import com.example.EcomarketSPAweb.Services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-    @RestController
-    @RequestMapping("/users")
+import java.util.Optional;
+
+@RestController
+@RequestMapping("/users")
 public class UserController {
 
-        @Autowired
-        UserService userService;
+    @Autowired
+    private UserService userService;
 
-        @GetMapping
-        public String getUsers(){
-            return userService.geUsers();
-        }
+    @GetMapping
+    public String getUsers() {
+        return userService.listarUsuarios();
+    }
 
-        @PostMapping
-        public String addUser(@RequestBody User user){
-            return userService.addUser(user);
-        }
+    @GetMapping("/id/{id}")
+    public String getUserById(@PathVariable int id) {
+        return userService.obtenerUsuarioporId(id);
+    }
 
-        @GetMapping("/{id}")
-        public String getUserById(@PathVariable int id){
-            return userService.getUser(id);
-        }
+    @PostMapping("/login")
+    public String login(@RequestBody LoginRequest loginRequest) {
+        Optional<User> user = userService.login(loginRequest.getUsername(), loginRequest.getPassword());
 
-        @DeleteMapping("/{id}")
-        public String deleteUser(@PathVariable int id){
-            return userService.deleteUser(id);
+        if (user.isPresent()) {
+            return "¡Has iniciado sesión exitosamente!: " + user.get().getUsername();
+        } else {
+            return "Credenciales inválidas";
         }
-        @PutMapping("/{id}")
-        public String putUserById(@PathVariable int id, @RequestBody User user){
-            return userService.updateUser(id,user);
-        }
+    }
 
 
 }
