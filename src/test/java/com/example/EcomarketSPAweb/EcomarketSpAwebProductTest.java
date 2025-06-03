@@ -42,4 +42,6 @@ class EcomarketSpAwebProductTest {
 		assertEquals(1990,prueba.getPrice());
 	}
 
+
+	/* Si pueden agregar los test para los demas controladores por favor"
 }

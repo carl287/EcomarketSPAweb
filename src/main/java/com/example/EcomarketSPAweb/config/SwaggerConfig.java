@@ -13,7 +13,7 @@ public class SwaggerConfig {
         return new OpenAPI()
                 .info(new Info()
                         .title("Ecomarket API")
-                        .version("1.0")
+                        .version("1.1")
                         .description("prueba para Ecomarket SPAweb para la gestion de usuario, productos y envios"));
 
     }
