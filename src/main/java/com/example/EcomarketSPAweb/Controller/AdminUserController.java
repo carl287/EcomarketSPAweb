@@ -4,6 +4,8 @@ package com.example.EcomarketSPAweb.Controller;
 import com.example.EcomarketSPAweb.Model.*;
 import com.example.EcomarketSPAweb.Repository.*;
 import com.example.EcomarketSPAweb.Services.AdminUserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/users/admin")
+@Tag(name = "usuarios modelo admin", description = "Operaciones que puede hacer el administrador o encargado para administrar usuarios")
 public class AdminUserController {
 
     @Autowired
@@ -20,6 +23,7 @@ public class AdminUserController {
     // Listar todos los usuarios
     // http://localhost:8080/users/admin (GET)
     @GetMapping
+    @Operation(summary = "obtiene una lista con todos los usarios registrados")
     public List<User> listarUsuarios() {
         return adminUserService.obtenerTodosLosUsuarios();
     }
@@ -32,6 +36,7 @@ public class AdminUserController {
     //  "password": "contraseña"
     //}
     @PostMapping
+    @Operation(summary = "se agrega un usario manualmente")
     public ResponseEntity<User> agregarUsuario(@RequestBody User nuevoUsuario) {
         User creado = adminUserService.agregarUsuario(nuevoUsuario);
         return ResponseEntity.ok(creado);
@@ -44,6 +49,7 @@ public class AdminUserController {
     //  "password": "nuevaclave"
     //}
     @PutMapping("/{id}")
+    @Operation(summary = "se modifica el usuario ya registrado")
     public ResponseEntity<User> modificarUsuario(@PathVariable int id, @RequestBody User usuario) {
         try {
             User actualizado = adminUserService.modificarUsuario(id, usuario);
@@ -56,6 +62,7 @@ public class AdminUserController {
     // Desactiva usuario
     // http://localhost:8080/users/admin/(id)/desactivar (PUT)
     @PutMapping("/{id}/desactivar")
+    @Operation(summary = "se desactiva un usuario ya registrado")
     public ResponseEntity<String> desactivarUsuario(@PathVariable int id) {
         try {
             adminUserService.desactivarUsuario(id);
@@ -70,6 +77,7 @@ public class AdminUserController {
     // Eliminar usuario
     // http://localhost:8080/users/admin/(id) (DELETE)
     @DeleteMapping("/{id}")
+    @Operation(summary = "se elimina el usuario ya registrado por completo, se recomienda desactivar usuario")
     public ResponseEntity<String> eliminarUsuario(@PathVariable int id) {
         try {
             adminUserService.eliminarUsuarioPorId(id);
