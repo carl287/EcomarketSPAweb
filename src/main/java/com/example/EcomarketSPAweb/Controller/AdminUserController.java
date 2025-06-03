@@ -14,7 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/users/admin")
-@Tag(name = "usuarios modelo admin", description = "Operaciones que puede hacer el administrador o encargado para administrar usuarios")
+@Tag(name = "Administracion de usuarios para Admin/Encargado", description = "Operaciones que puede hacer el administrador o encargado para administrar usuarios")
 public class AdminUserController {
 
     @Autowired
