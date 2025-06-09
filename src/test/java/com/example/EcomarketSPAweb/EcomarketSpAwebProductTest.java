@@ -37,7 +37,7 @@ class EcomarketSpAwebProductTest {
 	@Test
 	@DisplayName("Rectificar precio producto")
 	void testFindProduct(){
-		Product prueba = productRepository.findById(1).get();
+		Product prueba = productRepository.findById(2).get();
 		assertNotNull(prueba);
 		assertEquals(1990,prueba.getPrice());
 	}
