@@ -36,7 +36,7 @@ class EcomarketSpAsupplierTest {
 	}
 
 	@Test
-	@DisplayName("Rectificar nombre usuario")
+	@DisplayName("Rectificar correo proovedor")
 	void testFindSupplierEmail(){
 		Suppliers prueba = suppliersRepository.findById(3).get();
 		assertNotNull(prueba);

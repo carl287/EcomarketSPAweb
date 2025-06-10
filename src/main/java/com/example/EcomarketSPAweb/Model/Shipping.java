@@ -1,9 +1,6 @@
 package com.example.EcomarketSPAweb.Model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,8 +17,14 @@ public class Shipping {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
     private int id;
-    private String shippingName;
-    private String shippingEmail;
+
+    @Column(name = "shipping_name")
+    private String shipping_name;
+
+    @Column(name = "shipping_email")
+    private String shipping_email;
+
+    @Column(name = "patente")
     private String patente;
 
 }
