@@ -36,7 +36,7 @@ public class AdminUserController {
     //  "password": "contraseña"
     //}
     @PostMapping
-    @Operation(summary = "se agrega un usario manualmente")
+    @Operation(summary = "Se agrega un usario manualmente")
     public ResponseEntity<User> agregarUsuario(@RequestBody User nuevoUsuario) {
         User creado = adminUserService.agregarUsuario(nuevoUsuario);
         return ResponseEntity.ok(creado);
@@ -49,7 +49,7 @@ public class AdminUserController {
     //  "password": "nuevaclave"
     //}
     @PutMapping("/{id}")
-    @Operation(summary = "se modifica el usuario ya registrado")
+    @Operation(summary = "Se modifica el usuario ya registrado")
     public ResponseEntity<User> modificarUsuario(@PathVariable int id, @RequestBody User usuario) {
         try {
             User actualizado = adminUserService.modificarUsuario(id, usuario);
@@ -62,7 +62,7 @@ public class AdminUserController {
     // Desactiva usuario
     // http://localhost:8080/users/admin/(id)/desactivar (PUT)
     @PutMapping("/{id}/desactivar")
-    @Operation(summary = "se desactiva un usuario ya registrado")
+    @Operation(summary = "Se desactiva un usuario ya registrado")
     public ResponseEntity<String> desactivarUsuario(@PathVariable int id) {
         try {
             adminUserService.desactivarUsuario(id);
