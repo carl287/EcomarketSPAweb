@@ -1,19 +1,20 @@
 package com.example.EcomarketSPAweb.Controller;
 
-import com.example.EcomarketSPAweb.Model.Product;
+
 import com.example.EcomarketSPAweb.Services.GestionProductService;
 import com.example.EcomarketSPAweb.Services.ProductService;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+//V2 DE PRODUCT CONTROLLER
 
 @RestController
-@RequestMapping("/products")
-@Tag(name = "Vista de productos")
-//probando
-public class ProductController {
-
+@RequestMapping("/api/v2/products")
+public class ProductControllerV2 {
     @Autowired
     private ProductService productService;
     @Autowired
@@ -29,7 +30,5 @@ public class ProductController {
     public String getProductById(@PathVariable int id) {
         return productService.obtenerProductoPorId(id);
     }
-
-
 
 }

@@ -19,8 +19,8 @@ public class SuppliersService {
         String output="";
         for(Suppliers suppliers:suppliersRepository.findAll()){
             output+="ID proveedor: "+suppliers.getId()+"\n";
-            output+="Nombre proveedor: "+suppliers.getSupplierName()+"\n";
-            output+="Email proveedor: "+suppliers.getSupplierEmail()+"\n";
+            output+="Nombre proveedor: "+suppliers.getSupplier_name()+"\n";
+            output+="Email proveedor: "+suppliers.getSupplier_email()+"\n";
         }
 
         if (output.isEmpty()){
@@ -36,8 +36,8 @@ public class SuppliersService {
         if (suppliersRepository.existsById(id)){
             Suppliers suppliers=suppliersRepository.findById(id).get();
             output+="ID proveedor: "+suppliers.getId()+"\n";
-            output+="Nombre proveedor: "+suppliers.getSupplierName()+"\n";
-            output+="Email proveedor: "+suppliers.getSupplierEmail()+"\n";
+            output+="Nombre proveedor: "+suppliers.getSupplier_name()+"\n";
+            output+="Email proveedor: "+suppliers.getSupplier_email()+"\n";
             return output;
         }else{
             return "No existe un proveedor con ese id";
@@ -55,8 +55,8 @@ public class SuppliersService {
     public String actualizarSupplier(int id, Suppliers suppliers){
         if (suppliersRepository.existsById(id)){
             Suppliers buscado=suppliersRepository.findById(id).get();
-            buscado.setSupplierName(suppliers.getSupplierName());
-            buscado.setSupplierEmail(suppliers.getSupplierEmail());
+            buscado.setSupplier_name(suppliers.getSupplier_name());
+            buscado.setSupplier_email(suppliers.getSupplier_email());
             suppliersRepository.save(buscado);
             return "Se ha actualizado el proveedor con id: "+id;
         }else {
