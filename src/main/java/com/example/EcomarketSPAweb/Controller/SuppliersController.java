@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -25,8 +26,12 @@ public class SuppliersController {
             @ApiResponse(responseCode = "500", description = "Error interno al listar proveedores")
     })
     @GetMapping
-    public String getSuppliers() {
-        return supplierService.listarSuppliers();
+    public ResponseEntity<String> getSuppliers() {
+        try {
+            return ResponseEntity.ok(supplierService.listarSuppliers());
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body("Error al listar proveedores.");
+        }
     }
 
     @Operation(summary = "Agrega un proveedor", description = "Registra un nuevo proveedor en el sistema.")
@@ -36,8 +41,15 @@ public class SuppliersController {
             @ApiResponse(responseCode = "500", description = "Error interno al agregar proveedor")
     })
     @PostMapping
-    public String postSuppliers(@RequestBody Suppliers suppliers) {
-        return supplierService.agregarSupplier(suppliers);
+    public ResponseEntity<String> postSuppliers(@RequestBody Suppliers suppliers) {
+        try {
+            String resultado = supplierService.agregarSupplier(suppliers);
+            return ResponseEntity.status(201).body(resultado);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body("Datos inválidos para agregar proveedor.");
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body("Error al agregar proveedor.");
+        }
     }
 
     @Operation(summary = "Obtiene un proveedor por ID", description = "Muestra los datos de un proveedor específico según su ID.")
@@ -47,8 +59,16 @@ public class SuppliersController {
             @ApiResponse(responseCode = "500", description = "Error interno al consultar proveedor")
     })
     @GetMapping("/{id}")
-    public String getSuppliersById(@PathVariable int id) {
-        return supplierService.obtenerSupplier(id);
+    public ResponseEntity<String> getSuppliersById(@PathVariable int id) {
+        try {
+            String proveedor = supplierService.obtenerSupplier(id);
+            if (proveedor == null || proveedor.isBlank()) {
+                return ResponseEntity.status(404).body("Proveedor no encontrado.");
+            }
+            return ResponseEntity.ok(proveedor);
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body("Error al consultar proveedor.");
+        }
     }
 
     @Operation(summary = "Elimina un proveedor por ID", description = "Elimina un proveedor existente en el sistema.")
@@ -58,8 +78,16 @@ public class SuppliersController {
             @ApiResponse(responseCode = "500", description = "Error interno al eliminar proveedor")
     })
     @DeleteMapping("/{id}")
-    public String deleteSuppliersById(@PathVariable int id) {
-        return supplierService.eliminarSupplier(id);
+    public ResponseEntity<String> deleteSuppliersById(@PathVariable int id) {
+        try {
+            String resultado = supplierService.eliminarSupplier(id);
+            if (resultado.contains("no encontrado")) {
+                return ResponseEntity.status(404).body(resultado);
+            }
+            return ResponseEntity.ok(resultado);
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body("Error al eliminar proveedor.");
+        }
     }
 
     @Operation(summary = "Actualiza un proveedor por ID", description = "Modifica los datos de un proveedor existente.")
@@ -70,7 +98,17 @@ public class SuppliersController {
             @ApiResponse(responseCode = "500", description = "Error interno al actualizar proveedor")
     })
     @PutMapping("/{id}")
-    public String putSuppliersById(@PathVariable int id, @RequestBody Suppliers suppliers) {
-        return supplierService.actualizarSupplier(id, suppliers);
+    public ResponseEntity<String> putSuppliersById(@PathVariable int id, @RequestBody Suppliers suppliers) {
+        try {
+            String resultado = supplierService.actualizarSupplier(id, suppliers);
+            if (resultado.contains("no encontrado")) {
+                return ResponseEntity.status(404).body(resultado);
+            }
+            return ResponseEntity.ok(resultado);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body("Datos inválidos para actualizar proveedor.");
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body("Error al actualizar proveedor.");
+        }
     }
 }
