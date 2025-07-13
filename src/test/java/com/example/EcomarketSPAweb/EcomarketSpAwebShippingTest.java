@@ -45,5 +45,23 @@ class EcomarketSpAwebShippingTest {
 		assertEquals("abc123", prueba.getPatente());
 	}
 
+	@Test
+	@DisplayName("rectificar correo")
+	void testFindEmail(){
+		Shipping prueba = shippingRepository.findById(2).get();
+		assertNotNull(prueba);
+		//se ocoloca el correo deseado para verificar si existe//
+		assertEquals("envio1@correo.cl", prueba.getShipping_email());
+
+	}
+
+	@Test
+	@DisplayName("verificar nombre del envio")
+	void testFindShippingName(){
+		Shipping prueba = shippingRepository.findById(2).get();
+		//se coloca el nombre del envio para verfifcar si esta//
+		assertEquals("envio1", prueba.getShipping_name());
+	}
+
 
 }

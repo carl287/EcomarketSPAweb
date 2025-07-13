@@ -44,5 +44,23 @@ class EcomarketSpAsupplierTest {
 		assertEquals("proovedor1@correo.cl", prueba.getSupplier_email());
 	}
 
+	@Test
+	@DisplayName("Rectificar nombre proovedor")
+	void testFindSupplierName(){
+		Suppliers prueba = suppliersRepository.findById(3).get();
+		assertNotNull(prueba);
+		//se coloca el nombre del proveedor para verificar si esta en la base de datos//
+		assertEquals("proovedor1", prueba.getSupplier_name());
+	}
+
+	@Test
+	@DisplayName("Rectificar id proovedor")
+	void testFindSupplierId(){
+		Suppliers prueba = suppliersRepository.findById(3).get();
+		assertNotNull(prueba);
+		//se coloca el id del proovedor que se busca para ver si esta en la base de datos//
+		assertEquals(3, prueba.getId());
+	}
+
 
 }
