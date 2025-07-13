@@ -44,5 +44,23 @@ class EcomarketSpAwebUserTest {
 		assertEquals("usuario1", prueba.getUsername());
 	}
 
+	@Test
+	@DisplayName("rectificar correo usuario")
+	void testFindEmail(){
+		User prueba = userRepository.findById(2).get();
+		assertNotNull(prueba);
+		//se coloca el correo del usuario para ver si coincide//
+		assertEquals("usuario@cooreo1.cl", prueba.getEmail());
+	}
+
+	@Test
+	@DisplayName("verificar si el usuario esta activo")
+	void testFindUserId(){
+		User prueba = userRepository.findById(2).get();
+		assertNotNull(prueba);
+		//se ve si el usuario esta activo//
+		assertEquals(true, prueba.isActive());
+	}
+
 
 }
