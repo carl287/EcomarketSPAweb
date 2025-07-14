@@ -2,13 +2,21 @@ package com.example.EcomarketSPAweb.Controller;
 
 import com.example.EcomarketSPAweb.Model.Suppliers;
 import com.example.EcomarketSPAweb.Services.SuppliersService;
+import com.example.EcomarketSPAweb.assemblers.SuppliersModelAssembler;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.EntityModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.stream.Collectors;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 
 @RestController
@@ -20,17 +28,29 @@ public class SuppliersController {
     @Autowired
     private SuppliersService supplierService;
 
+    @Autowired
+    private SuppliersModelAssembler assembler;
+
     @Operation(summary = "Lista todos los proveedores", description = "Devuelve un listado completo de proveedores.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Proveedores listados correctamente"),
             @ApiResponse(responseCode = "500", description = "Error interno al listar proveedores")
     })
     @GetMapping
-    public ResponseEntity<String> getSuppliers() {
+    public ResponseEntity<CollectionModel<EntityModel<Suppliers>>> getSuppliers() {
         try {
-            return ResponseEntity.ok(supplierService.listarSuppliers());
+            List<Suppliers> suppliersList = supplierService.listarSuppliers();
+
+            List<EntityModel<Suppliers>> supplierModels = suppliersList.stream()
+                    .map(assembler::toModel)
+                    .collect(Collectors.toList());
+
+            CollectionModel<EntityModel<Suppliers>> collectionModel = CollectionModel.of(supplierModels,
+                    linkTo(methodOn(SuppliersController.class).getSuppliers()).withSelfRel());
+
+            return ResponseEntity.ok(collectionModel);
         } catch (Exception e) {
-            return ResponseEntity.internalServerError().body("Error al listar proveedores.");
+            return ResponseEntity.internalServerError().build();
         }
     }
 

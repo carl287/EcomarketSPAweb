@@ -5,6 +5,8 @@ import com.example.EcomarketSPAweb.Repository.SuppliersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class SuppliersService {
     @Autowired
@@ -15,20 +17,8 @@ public class SuppliersService {
         return "Se ha agregado el  con id: "+supplier.getId();
 
     }
-    public String listarSuppliers(){
-        String output="";
-        for(Suppliers suppliers:suppliersRepository.findAll()){
-            output+="ID proveedor: "+suppliers.getId()+"\n";
-            output+="Nombre proveedor: "+suppliers.getSupplier_name()+"\n";
-            output+="Email proveedor: "+suppliers.getSupplier_email()+"\n";
-        }
-
-        if (output.isEmpty()){
-            return "No hay proveedores";
-
-        }else {
-            return output;
-        }
+    public List<Suppliers> listarSuppliers(){
+        return suppliersRepository.findAll();
     }
 
     public String obtenerSupplier(int id){
