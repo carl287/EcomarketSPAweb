@@ -3,13 +3,19 @@ package com.example.EcomarketSPAweb.Controller;
 import com.example.EcomarketSPAweb.Model.Product;
 import com.example.EcomarketSPAweb.Services.GestionProductService;
 import com.example.EcomarketSPAweb.Services.ProductService;
+import com.example.EcomarketSPAweb.assemblers.ProductModelAssembler;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/products")
@@ -23,18 +29,21 @@ public class ProductController {
     @Autowired
     private GestionProductService gestionProductService;
 
+    @Autowired
+    ProductModelAssembler assembler;
+
     @Operation(summary = "Lista todos los productos", description = "Devuelve un listado completo de productos.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Productos listados correctamente"),
             @ApiResponse(responseCode = "500", description = "Error interno al listar productos")
     })
     @GetMapping
-    public ResponseEntity<String> getProduct() {
-        try {
-            String productos = productService.listarProductos();
-            return ResponseEntity.ok(productos); // 200 OK
-        } catch (Exception e) {
-            return ResponseEntity.internalServerError().body("Error al listar productos.");
+    public ResponseEntity<CollectionModel<EntityModel<Product>>> getProduct() {
+        List<Product> lista = productService.listarProductos();
+        if (lista.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } else {
+            return new ResponseEntity<>(assembler.toCollectionModel(lista), HttpStatus.OK);
         }
     }
 
@@ -45,19 +54,12 @@ public class ProductController {
             @ApiResponse(responseCode = "500", description = "Error interno al buscar producto")
     })
     @GetMapping("/{id}")
-    public ResponseEntity<String> getProductById(@PathVariable int id) {
-        try {
-            String producto = productService.obtenerProductoPorId(id);
-
-            // Validación simple: si la respuesta está vacía, lo tratamos como "no encontrado"
-            if (producto == null || producto.isBlank()) {
-                return ResponseEntity.status(404).body("Producto no encontrado.");
-            }
-
-            return ResponseEntity.ok(producto); // 200 OK
-
-        } catch (Exception e) {
-            return ResponseEntity.internalServerError().body("Error al buscar producto.");
+    public ResponseEntity<EntityModel<Product>> getProductById(@PathVariable int id) {
+        Product product = productService.obtenerProductoPorId(id);
+        if (productService.obtenerProductoPorId(id) == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } else {
+            return new ResponseEntity<>(assembler.toModel(product), HttpStatus.OK);
         }
     }
 

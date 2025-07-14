@@ -4,11 +4,15 @@ package com.example.EcomarketSPAweb.Controller;
 import com.example.EcomarketSPAweb.Model.*;
 import com.example.EcomarketSPAweb.Repository.*;
 import com.example.EcomarketSPAweb.Services.AdminUserService;
+import com.example.EcomarketSPAweb.assemblers.AdminUserAssembler;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,6 +26,9 @@ public class AdminUserController {
 
     @Autowired
     private AdminUserService adminUserService;
+
+    @Autowired
+    private AdminUserAssembler assembler;
 
     @Operation(summary = "Obtiene todos los usuarios", description = "Devuelve una lista con todos los usuarios registrados en el sistema.")
     @ApiResponses(value = {

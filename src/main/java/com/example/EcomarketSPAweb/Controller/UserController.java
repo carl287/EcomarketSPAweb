@@ -3,14 +3,20 @@ package com.example.EcomarketSPAweb.Controller;
 import com.example.EcomarketSPAweb.Model.User;
 import com.example.EcomarketSPAweb.Repository.DTO.LoginRequest;
 import com.example.EcomarketSPAweb.Services.UserService;
+import com.example.EcomarketSPAweb.assemblers.UserModelAssembler;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -18,9 +24,11 @@ import java.util.Optional;
 @Tag(name = "Vista de usuarios")
 public class UserController {
 
-
     @Autowired
     private UserService userService;
+
+    @Autowired
+    UserModelAssembler assembler;
 
     @Operation(summary = "Lista todos los usuarios", description = "Devuelve un listado de todos los usuarios registrados.")
     @ApiResponses(value = {
@@ -28,11 +36,12 @@ public class UserController {
             @ApiResponse(responseCode = "500", description = "Error interno al listar usuarios")
     })
     @GetMapping
-    public ResponseEntity<String> getUsers() {
-        try {
-            return ResponseEntity.ok(userService.listarUsuarios());
-        } catch (Exception e) {
-            return ResponseEntity.internalServerError().body("Error al listar usuarios.");
+    public ResponseEntity<CollectionModel<EntityModel<User>>> getUsers() {
+        List<User> lista = userService.listarUsuarios();
+        if (lista.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } else {
+            return new ResponseEntity<>(assembler.toCollectionModel(lista), HttpStatus.OK);
         }
     }
 
@@ -43,15 +52,13 @@ public class UserController {
             @ApiResponse(responseCode = "500", description = "Error interno al buscar usuario")
     })
     @GetMapping("/id/{id}")
-    public ResponseEntity<String> getUserById(@PathVariable int id) {
-        try {
-            String usuario = userService.obtenerUsuarioporId(id);
-            if (usuario == null || usuario.isBlank()) {
-                return ResponseEntity.status(404).body("Usuario no encontrado.");
-            }
-            return ResponseEntity.ok(usuario);
-        } catch (Exception e) {
-            return ResponseEntity.internalServerError().body("Error al buscar usuario.");
+    @Parameter(description = "ID del usuario a buscar", example = "1")
+    public ResponseEntity<EntityModel<User>> getUserById(@PathVariable int id) {
+        User user = userService.obtenerUsuarioporId(id);
+        if (user == null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } else {
+            return new ResponseEntity<>(assembler.toModel(user), HttpStatus.OK);
         }
     }
 

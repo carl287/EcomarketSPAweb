@@ -5,6 +5,8 @@ import com.example.EcomarketSPAweb.Repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ProductService {
 
@@ -16,35 +18,15 @@ public class ProductService {
         return "Se ha agregado el producto con id: "+product.getId();
     }
 
-    public String listarProductos(){
-        String output="";
-        for(Product product:productRepository.findAll()){
-            output+="ID producto: "+product.getId()+"\n";
-            output+="Nombre producto: "+product.getName()+"\n";
-            output+="Descripcion producto: "+product.getDescription()+"\n";
-            output+="Stock producto: "+product.getStock()+"\n";
-        }
-
-        if (output.isEmpty()){
-            return "No hay productos";
-
-        }else {
-            return output;
-        }
+    public List<Product> listarProductos(){
+        return productRepository.findAll();
     }
 
-    public String obtenerProductoPorId(int id){
-        String output="";
+    public Product obtenerProductoPorId(int id){
         if (productRepository.existsById(id)){
-            Product product=productRepository.findById(id).get();
-            output+="ID producto: "+product.getId()+"\n";
-            output+="Nombre producto: "+product.getName()+"\n";
-            output+="Descripcion producto: "+product.getDescription()+"\n";
-            output+="Stock producto: "+product.getStock()+"\n";
-            return output;
-        }else{
-            return "No existe un producto con ese id";
+            return productRepository.findById(id).get();
         }
+        return null;
     }
 
 }
