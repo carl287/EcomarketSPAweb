@@ -1,11 +1,11 @@
 package com.example.EcomarketSPAweb.Services;
 
-import com.example.EcomarketSPAweb.Model.Product;
 import com.example.EcomarketSPAweb.Model.User;
 import com.example.EcomarketSPAweb.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -20,34 +20,15 @@ public class UserService {
         return "se a agregado usuario con id " + user.getId();
     }
 
-    public String listarUsuarios() {
-        String output = "";
-        for (User user : userRepository.findAll()) {
-            output += "Id usuario: " + user.getId() + "\n";
-            output += "nombre de usuario: " + user.getUsername() + "\n";
-            output += "contraseña: " + user.getPassword() + "\n";
-            output += "correo: " + user.getEmail() + "\n";
-
-        }
-        if (output.isEmpty()) {
-            return "no hay usuarios";
-        } else {
-            return output;
-        }
+    public List<User> listarUsuarios() {
+        return userRepository.findAll();
     }
 
-    public String obtenerUsuarioporId(int id) {
-        String output = "";
+    public User obtenerUsuarioporId(int id) {
         if (userRepository.existsById(id)) {
-            User user = userRepository.findById(id).get();
-            output += "ID usuario: " + user.getId() + "\n";
-            output += "Nombre de usuario: " + user.getUsername() + "\n";
-            output += "Contraseña: " + user.getPassword() + "\n";
-            output += "Correo: " + user.getEmail() + "\n";
-            return output;
-        } else {
-            return "No existe un producto con ese id";
+            return userRepository.findById(id).get();
         }
+        return null;
     }
 
     public String eliminarUsuario(int id){

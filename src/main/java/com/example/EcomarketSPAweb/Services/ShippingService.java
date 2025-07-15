@@ -6,6 +6,7 @@ import com.example.EcomarketSPAweb.Repository.ShippingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 
 
 @Service
@@ -19,21 +20,8 @@ public class ShippingService {
         return "Se ha agregado el envio con id: "+shipping.getId();
     }
 
-    public String listarShipping(){
-        String output="";
-        for(Shipping shipping:shippingRepository.findAll()){
-            output+="ID envio: "+shipping.getId()+"\n";
-            output+="Nombre envio: "+shipping.getShipping_name()+"\n";
-            output+="Email envio: "+shipping.getShipping_email()+"\n";
-            output+="Patente envio: "+shipping.getPatente()+"\n";
-        }
-
-        if (output.isEmpty()){
-            return "No hay envios";
-
-        }else {
-            return output;
-        }
+    public List<Shipping> listarShipping(){
+        return shippingRepository.findAll();
     }
 
     public String obtenerShippingPorId(int id){

@@ -42,6 +42,27 @@ class EcomarketSpAwebProductTest {
 		assertEquals(1990,prueba.getPrice());
 	}
 
+	@Test
+	@DisplayName("Rectificar nombre producto")
+	void testFindProductName(){
+		Product prueba = productRepository.findById(2).get();
+		assertNotNull(prueba);
+		assertEquals("bolsa biodegradbale",prueba.getName());
+	}
 
-	/* Si pueden agregar los test para los demas controladores por favor */
+	@Test
+	@DisplayName("rectificar stock")
+	void testFindStock(){
+		Product prueba = productRepository.findById(2).get();
+		assertNotNull(prueba);
+		assertEquals(30,prueba.getStock());
+	}
+
+	@Test
+	@DisplayName("rectificar descripcion")
+	void testFindDescription(){
+		Product prueba = productRepository.findById(2).get();
+		assertNotNull(prueba);
+		assertEquals("bolsa biodegradbale de composta",prueba.getDescription());
+	}
 }
