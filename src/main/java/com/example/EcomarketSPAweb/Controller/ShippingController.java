@@ -1,19 +1,25 @@
 package com.example.EcomarketSPAweb.Controller;
 
 
-import com.example.EcomarketSPAweb.Model.Product;
 import com.example.EcomarketSPAweb.Model.Shipping;
-import com.example.EcomarketSPAweb.Services.ProductService;
+import com.example.EcomarketSPAweb.Model.Suppliers;
 import com.example.EcomarketSPAweb.Services.ShippingService;
+import com.example.EcomarketSPAweb.assemblers.ShippingModelAssembler;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.EntityModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
 @RequestMapping("/shippings")
@@ -24,17 +30,29 @@ public class ShippingController {
     @Autowired
     private ShippingService shippingService;
 
+    @Autowired
+    private ShippingModelAssembler assembler;
+
     @Operation(summary = "Lista todos los envíos", description = "Devuelve todos los envíos registrados.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Envíos listados correctamente"),
             @ApiResponse(responseCode = "500", description = "Error interno al listar envíos")
     })
     @GetMapping
-    public ResponseEntity<String> getShipping() {
+    public ResponseEntity<CollectionModel<EntityModel<Shipping>>> getShipping() {
         try {
-            return ResponseEntity.ok(shippingService.listarShipping());
+            List<Shipping> shippingList = shippingService.listarShipping();
+
+            List<EntityModel<Shipping>> shippingModels = shippingList.stream()
+                    .map(assembler::toModel)
+                    .collect(Collectors.toList());
+
+            CollectionModel<EntityModel<Shipping>> collectionModel = CollectionModel.of(shippingModels,
+                    linkTo(methodOn(ShippingController.class).getShipping()).withSelfRel());
+
+            return ResponseEntity.ok(collectionModel);
         } catch (Exception e) {
-            return ResponseEntity.internalServerError().body("Error al listar envíos.");
+            return ResponseEntity.internalServerError().build();
         }
     }
 
