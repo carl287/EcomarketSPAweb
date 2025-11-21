@@ -9,7 +9,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @Component
-public class UserModelAssembler implements RepresentationModelAssembler<User, EntityModel<User>> {
+    public class UserModelAssembler implements RepresentationModelAssembler<User, EntityModel<User>> {
 
     @Override
     //se pusieron solo los metodos get porque los metodos delete y update estan en AdminUser
